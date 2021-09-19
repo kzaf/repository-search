@@ -1,10 +1,10 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { StyleSheet, View, Text, TouchableNativeFeedback } from 'react-native';
 import { ActivityIndicator } from "react-native-paper";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from 'react-redux';
 import { useNavigation } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
-import { RootStackParamList } from '../screens/RootStackPrams';
+import { RootStackParamList } from '../navigator/RootStackPrams';
 import { FlatList } from 'react-native-gesture-handler';
 import { gql, useLazyQuery } from "@apollo/client";
 
@@ -28,6 +28,8 @@ const GET_REPOSITORIES = gql`
 
 export default function ResultListComponent() {
 
+    const dispatch = useDispatch();
+
     type searchScreenProp = StackNavigationProp<RootStackParamList, 'Details'>;
     const navigation = useNavigation<searchScreenProp>();
 
@@ -44,10 +46,15 @@ export default function ResultListComponent() {
         const timeoutId = setTimeout(() => getRepositories(), 1000);
         return () => clearTimeout(timeoutId);
     }, [])
-
+    
     const ItemView = ({ item }: { item: any }) => {
         return (
-            <TouchableNativeFeedback onPress={() => navigation.navigate('Details')}>
+                <TouchableNativeFeedback onPress={
+                    () => {
+                        dispatch({ type: "SHOW_DETAILS_OF_SELECTION", selectedItem: item.node })
+                        navigation.navigate('Details')
+                    }
+                }>
                 <Text style={styles.listItemText}>
                     {item.node.name}
                 </Text>

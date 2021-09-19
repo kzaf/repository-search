@@ -1,18 +1,18 @@
 
 import React from 'react';
-import { View, Text, Button } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
-import { StackNavigationProp } from '@react-navigation/stack';
-import { RootStackParamList } from './RootStackPrams';
+import { View, Text } from 'react-native';
+import { useDispatch, useSelector } from 'react-redux';
 
-type detailsScreenProp = StackNavigationProp<RootStackParamList, 'Details'>;
 
 function DetailsScreen() {
-    const navigation = useNavigation<detailsScreenProp>();
+
+    const selectedRepo = useSelector((state) => state.selectedRepository.selectedRepo);
 
     return (
         <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-            <Text>Details Screen</Text>
+            {console.log(JSON.stringify(selectedRepo.name))}
+            <Text>{JSON.stringify(selectedRepo.name)}</Text>
+            <Text>{JSON.stringify(selectedRepo.description)}</Text>
         </View>
     );
 }

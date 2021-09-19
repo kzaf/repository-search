@@ -7,7 +7,7 @@ import DetailsScreen from './screens/DetailsScreen';
 
 import { StatusBar } from 'expo-status-bar';
 import React from 'react';
-import { RootStackParamList } from './screens/RootStackPrams';
+import { RootStackParamList } from './navigator/RootStackPrams';
 
 import {createStore} from 'redux';
 import allReducers from './reducers/index';
