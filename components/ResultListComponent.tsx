@@ -8,7 +8,7 @@ import { RootStackParamList } from '../navigator/RootStackPrams';
 import { FlatList } from 'react-native-gesture-handler';
 import { gql, useLazyQuery } from "@apollo/client";
 
-
+// https://docs.github.com/en/graphql/overview/explorer
 const GET_REPOSITORIES = gql`
   query SearchRepositories($userQuery: String!) {
     search(query: $userQuery, type: REPOSITORY, first: 100) {
@@ -34,11 +34,12 @@ export default function ResultListComponent() {
     const navigation = useNavigation<searchScreenProp>();
 
     const query = useSelector((state) => state.query.text);
+    const selectedLanguage = useSelector((state) => state.searchOption.value);
 
     const [ getRepositories, { loading: loadingRepositories, data: repositoryData } ] = useLazyQuery(
         GET_REPOSITORIES, { 
             variables: { 
-                userQuery: query 
+                userQuery: query + "language:" + selectedLanguage
             } 
         });
 
@@ -55,11 +56,9 @@ export default function ResultListComponent() {
                     navigation.navigate('Details')
                 }
             }>
-                
                 <Text style={styles.listItemText}>
                     {item.node.name}
                 </Text>
-
             </TouchableNativeFeedback>
         )
     }
