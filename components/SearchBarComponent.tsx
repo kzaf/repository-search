@@ -12,26 +12,21 @@ export default function SearchBarComponent() {
 
     return (
         <Searchbar
-            placeholder="Search"
+            placeholder="Search repositories"
             onChangeText={onChangeSearch}
             value={query}
-            style={[styles.container, styles.darkModeContainer]}
-            inputStyle={styles.darkModeText}
-            iconColor={"white"}
+            style={[styles.searchBarContainer]}
+            inputStyle={styles.searchText}
+            iconColor={"black"}
         />
     );
 }
 
 const styles = StyleSheet.create({
-    container: {
-        marginTop: 20,
-        borderWidth: 1,
-        borderColor: '#DFE1E5'
+    searchBarContainer: {
+        backgroundColor: 'white',
     },
-    darkModeContainer: {
-        backgroundColor: 'black',
-    },
-    darkModeText: {
-        color: 'white'
+    searchText: {
+        color: 'black'
     }
 })

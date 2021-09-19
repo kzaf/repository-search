@@ -18,11 +18,7 @@ const GET_REPOSITORIES = gql`
             id
             url
             description
-            stargazerCount
-            nameWithOwner
-            owner {
-              avatarUrl
-            }
+            name
           }
         }
       }
@@ -52,8 +48,8 @@ export default function ResultListComponent() {
     const ItemView = ({ item }: { item: any }) => {
         return (
             <TouchableNativeFeedback onPress={() => navigation.navigate('Details')}>
-                <Text style={{ padding: 15 }}>
-                    {item.node.nameWithOwner.split("/")[1]}
+                <Text style={styles.listItemText}>
+                    {item.node.name}
                 </Text>
             </TouchableNativeFeedback>
         )
@@ -62,21 +58,25 @@ export default function ResultListComponent() {
     const ItemSeparatorView = () => {
         return (
             <View
-                style={{ height: 0.5, width: '100%', backgroundColor: '#c8c8c8' }}
+                style={styles.separator}
             />
         )
     }
 
     return (
         <View style={styles.container}>
+
             {(loadingRepositories) && (
-                <ActivityIndicator style={{ padding: 10 }} size="large" animating={true} />
+                <ActivityIndicator 
+                    size="large" 
+                    animating = {true} 
+                    style={styles.activityIndicator}
+                />
             )}
+
             {(repositoryData) && (
                 <FlatList
-                    style={{
-                        height: '100%'
-                    }}
+                    style={styles.list}
                     data={repositoryData.search.edges}
                     keyExtractor={(item) => item.node.id}
                     ItemSeparatorComponent={ItemSeparatorView}
@@ -93,5 +93,19 @@ const styles = StyleSheet.create({
         marginTop: 20,
         borderWidth: 1,
         borderColor: '#DFE1E5'
+    },
+    activityIndicator: {
+        padding: 10
+    },
+    list:{
+        height: '100%'
+    },
+    separator: { 
+        height: 0.5, 
+        width: '100%',
+         backgroundColor: '#c8c8c8' 
+    },
+    listItemText: { 
+        padding: 15 
     }
 })
