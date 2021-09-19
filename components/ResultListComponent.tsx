@@ -49,15 +49,17 @@ export default function ResultListComponent() {
     
     const ItemView = ({ item }: { item: any }) => {
         return (
-                <TouchableNativeFeedback onPress={
-                    () => {
-                        dispatch({ type: "SHOW_DETAILS_OF_SELECTION", selectedItem: item.node })
-                        navigation.navigate('Details')
-                    }
-                }>
+            <TouchableNativeFeedback onPress={
+                () => {
+                    dispatch({ type: "SHOW_DETAILS_OF_SELECTION", selectedItem: item.node })
+                    navigation.navigate('Details')
+                }
+            }>
+                
                 <Text style={styles.listItemText}>
                     {item.node.name}
                 </Text>
+
             </TouchableNativeFeedback>
         )
     }

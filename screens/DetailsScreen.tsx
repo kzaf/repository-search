@@ -1,20 +1,36 @@
-
 import React from 'react';
-import { View, Text } from 'react-native';
-import { useDispatch, useSelector } from 'react-redux';
+import { StyleSheet, View, Text, Linking } from 'react-native';
+import { useSelector } from 'react-redux';
 
 
 function DetailsScreen() {
 
     const selectedRepo = useSelector((state) => state.selectedRepository.selectedRepo);
+    const repoName = selectedRepo.name;
+    const repoDescription = selectedRepo.description;
+    const repoLink = selectedRepo.url;
 
     return (
-        <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-            {console.log(JSON.stringify(selectedRepo.name))}
-            <Text>{JSON.stringify(selectedRepo.name)}</Text>
-            <Text>{JSON.stringify(selectedRepo.description)}</Text>
+        <View style={styles.container}>
+            <Text>{repoName}</Text>
+            <Text>{repoDescription}</Text>
+            <Text style={styles.hyperlink}
+                onPress={() => Linking.openURL(repoLink)}>
+                Repo URL
+            </Text>
         </View>
     );
 }
+
+const styles = StyleSheet.create({
+    container: {
+        flex: 1, 
+        alignItems: 'center',
+        justifyContent: 'center'
+    },
+    hyperlink: {
+        color: 'blue'
+    }
+})
 
 export default DetailsScreen;

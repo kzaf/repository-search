@@ -12,45 +12,18 @@ import { RootStackParamList } from './navigator/RootStackPrams';
 import {createStore} from 'redux';
 import allReducers from './reducers/index';
 import { Provider } from 'react-redux';
-import {
-  ApolloClient,
-  InMemoryCache,
-  ApolloProvider,
-  HttpLink
-} from "@apollo/client";
-import { setContext } from "@apollo/client/link/context";
-
-const githubToken = ""; //TODO: Use your token
+import {ApolloProvider} from "@apollo/client";
+import apolloClient from "./api/ApolloClient"
 
 const Stack = createStackNavigator<RootStackParamList>();
+const store = createStore(allReducers);
+
 
 export default function App() {
-
-  const  store = createStore(allReducers);
-
-  const httpLink = new HttpLink({
-    uri: "https://api.github.com/graphql"
-  });
-
-  const authLink = setContext((_, { headers }) => {
-    const token = "Bearer " + githubToken;
-    // return the headers to the context so httpLink can read them
-    return {
-      headers: {
-        ...headers,
-        authorization: token ? token : null
-      }
-    };
-  });
-
-  const client = new ApolloClient({
-    link: authLink.concat(httpLink),
-    cache: new InMemoryCache()
-  });
-
   return (
+
     <Provider store = {store}>
-      <ApolloProvider client={client}>
+      <ApolloProvider client={apolloClient}>
         <NavigationContainer>
           <Stack.Navigator>
             <Stack.Screen name="Search" component={SearchScreen} />
